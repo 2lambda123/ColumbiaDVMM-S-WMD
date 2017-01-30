@@ -7,19 +7,19 @@ rng(RAND_SEED,'twister')
 
 addpath(genpath('functions'))
 
-save_path = 'results/'
+save_path = 'results/';
 
 dataset = 'bbcsport'; 
 MAX_DICT_SIZE = 50000; 
 
 % Optimization parameters
-max_iter = 200 % number of iterations
-save_frequency = max_iter % frequency of saving results
-batch = 32   % batch size in batch gradient descent (B in the paper)
-range = 200  % neighborhood size (N in the paper)
-lr_w = 1e+1  % learning rate for w
-lr_A = 1e+0  % learing rate for A
-lambda = 10  % parameter in regularized transport problem (lambda in the paper)
+max_iter = 200; % number of iterations
+save_frequency = max_iter; % frequency of saving results
+batch = 32;   % batch size in batch gradient descent (B in the paper)
+range = 200;  % neighborhood size (N in the paper)
+lr_w = 1e+1; % learning rate for w
+lr_A = 1e+0;  % learing rate for A
+lambda = 10; % parameter in regularized transport problem (lambda in the paper)
 
 cv_folds = 5 % number of folds for cross-validation
 for split = 1:cv_folds
@@ -67,9 +67,9 @@ for split = 1:cv_folds
 
     % Test learned metric for WCD
     Dc = distance(xtr_center, xte_center);
-    err_wcd = knn_fall_back(Dc,ytr,yte,1:19)
+    err_wcd = knn_fall_back(Dc,ytr,yte,1:19);
     Dc = distance(A * xtr_center, A * xte_center);
-    err_swcd = knn_fall_back(Dc,ytr,yte,1:19)
+    err_swcd = knn_fall_back(Dc,ytr,yte,1:19);
 
     tStart = tic;
 
@@ -101,13 +101,13 @@ for split = 1:cv_folds
             A_all{save_couter} = A;
             save(filename,'Err_v', 'Err_t', 'w_all', 'A_all', 'Ascaled')
         end
-        tIterEnd = toc(tIterStart)
+        tIterEnd = toc(tIterStart);
     end
     
     tt = toc(tStart);
 
     err_t_cv = Err_t(Err_v == min(min(Err_v)));
     T(split) = tt;
-    results_cv(split) = err_t_cv(1)
+    results_cv(split) = err_t_cv(1);
     save([save_path, dataset, '_results'], 'results_cv', 'T')
 end

@@ -12,7 +12,7 @@ end
 WMD = zeros(ntr,ntr);
 parfor i = 1:ntr
     disp([num2str(i) ' done']);
-    Wi = zeros(1,nte);
+    Wi = zeros(1,ntr);
     xi    = xtr{i};
     bow_i = BOW_xtr{i}';
     a = bow_i .*w(indices_tr{i});

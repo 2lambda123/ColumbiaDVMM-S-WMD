@@ -7,19 +7,19 @@ rng(RAND_SEED,'twister')
 
 addpath(genpath('functions'))
 
-save_path = 'results/';
+save_path = './results/';
 
 dataset = 'bbcsport'; 
 MAX_DICT_SIZE = 50000; 
 
 % Optimization parameters
-max_iter = 1; % number of iterations
+max_iter = 200; % number of iterations
 save_frequency = max_iter; % frequency of saving results
 batch = 32;   % batch size in batch gradient descent (B in the paper)
 range = 200;  % neighborhood size (N in the paper)
 lr_w = 1e+1; % learning rate for w
 lr_A = 1e+0;  % learing rate for A
-lambda = 10; % parameter in regularized transport problem (lambda in the paper)
+lambda = 1000; % parameter in regularized transport problem (lambda in the paper)
 
 cv_folds = 1; % number of folds for cross-validation
 for split = 1:cv_folds
@@ -76,11 +76,16 @@ for split = 1:cv_folds
 
         % Compute loss
         filename = [save_path, dataset,'_SWMD_matrix.mat'];
+        disp('begin test');
+        %disp(iter);
+        %disp(save_frequency);
         if mod(iter, save_frequency) == 0
             save_couter = save_couter + 1;
             SWMD_tr = distance_matrix_swmd(xtr, ytr, BOW_xtr, indices_tr, w, lambda, A);
             SWMD_all = distance_matrix_swmd([xtr, xte], [ytr, yte], [BOW_xtr, BOW_xte], [indices_tr, indices_te], w, lambda, A);
-            save(filename,'SWMD_tr', 'SWMD_all', 'xtr','xte','ytr','yte');
+            disp('test over');
+            save(filename,'SWMD_tr', 'SWMD_all', 'xtr','xte','ytr','yte', 'BOW_xtr','BOW_xte',...
+                    'indices_te','indices_tr','w','lambda','A');
         end
         tIterEnd = toc(tIterStart);
     end

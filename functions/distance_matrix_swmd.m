@@ -10,7 +10,7 @@ if ~exist('A', 'var') || isempty(A)
 end
 
 WMD = zeros(ntr,ntr);
-parfor i = 1:ntr
+for i = 1:ntr
     disp([num2str(i) ' done']);
     Wi = zeros(1,ntr);
     xi    = xtr{i};
@@ -25,7 +25,7 @@ parfor i = 1:ntr
         D  = distance(A*xi, A*xj);
         D(D < 0) = 0;
         D = full(D); 
-        [alpha, beta, T, dprimal, ddual] = sinkhorn(D, a, b, lambda, 200, 1e-3);
+        [alpha, beta, T, dprimal, ddual] = sinkhorn(D, a, b, lambda, 200, 1e-10);
         Wi(j) = dprimal;
     end
     WMD(i,:) = Wi;

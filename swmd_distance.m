@@ -6,7 +6,7 @@ RAND_SEED = 1;
 rng(RAND_SEED,'twister')
 
 addpath(genpath('functions'))
-
+addpath('./nca/')
 save_path = './results/';
 
 dataset = 'bbcsport'; 
@@ -43,10 +43,11 @@ for split = 1:cv_folds
     for i  = 1:nte
         xte_center(:,i) = xte{i} * BOW_xte{i}' / sum(BOW_xte{i});
     end
-
+    A_prime = get_nca_matrix(xtr_center',ytr,30,100);
     % Load intialize A (trained with WCD)
-    load(['metric_init/', dataset, '_seed', num2str(split), '.mat'])
-    A = Ascaled;
+    %load(['metric_init/', dataset, '_seed', num2str(split), '.mat'])
+    A = A_prime';
+    
     % Define optimization parameters
     w = ones(MAX_DICT_SIZE,1);  % weights over all words in the dictionary
 

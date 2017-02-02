@@ -1,4 +1,4 @@
-function [mapping] = get_nca_matrix(X, labels, no_dims, lambda)
+function [mappedX, mapping] = nca(X, labels, no_dims, lambda)
 %NCA Performs NCA on the specified dataset
 %
 %   [mappedX, mapping] = nca(X, labels, no_dims, lambda)
@@ -19,6 +19,8 @@ function [mapping] = get_nca_matrix(X, labels, no_dims, lambda)
 %
 % (C) Laurens van der Maaten, Delft University of Technology
 
+
+
     if ~exist('no_dims', 'var') || isempty(no_dims)
         no_dims = size(X, 2);
     end
@@ -27,8 +29,8 @@ function [mapping] = get_nca_matrix(X, labels, no_dims, lambda)
     end
     
     % Make sure data is zero mean
-    %mapping.mean = mean(X, 1);
-	%X = bsxfun(@minus, X, mapping.mean);
+    mapping.mean = mean(X, 1);
+	X = bsxfun(@minus, X, mapping.mean);
 
     % Initialize some variables
     max_iter = 200;
@@ -63,7 +65,6 @@ function [mapping] = get_nca_matrix(X, labels, no_dims, lambda)
     end
     
     % Compute embedding
-    %mapping.M = A;
-    mapping = A;
-    %mappedX = X * mapping.M;
+    mapping.M = A;
+    mappedX = X * mapping.M;
     

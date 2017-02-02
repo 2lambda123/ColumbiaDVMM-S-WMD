@@ -39,6 +39,7 @@ for split = 1:cv_folds
 
     % Compute document center
     xtr_center = zeros(dim, ntr);
+    ytr = ytr-1;
     for i  = 1:ntr
         xtr_center(:,i) = xtr{i} * BOW_xtr{i}' / sum(BOW_xtr{i});
     end
@@ -49,7 +50,7 @@ for split = 1:cv_folds
 
     % Load intialize A (trained with WCD)
     %load(['metric_init/', 'bbcsport', '_seed', num2str(split), '.mat'])
-    A = get_nca_matrix(xtr_center,ytr,projected_dim);
-    save('A.mat','A');
+    %A = get_nca_matrix(xtr_center,ytr,projected_dim);
+    save('center_data.mat','xtr_center','ytr');
 
 end

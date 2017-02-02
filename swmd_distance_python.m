@@ -49,7 +49,7 @@ for split = 1:cv_folds
 
     % Load intialize A (trained with WCD)
     %load(['metric_init/', 'bbcsport', '_seed', num2str(split), '.mat'])
-    A = get_nca_matrix(xtr_center,ytr,projected_dim);
+    A = get_nca_matrix(xtr_center',ytr,projected_dim);
     % Define optimization parameters
     w = ones(MAX_DICT_SIZE,1);  % weights over all words in the dictionary
 

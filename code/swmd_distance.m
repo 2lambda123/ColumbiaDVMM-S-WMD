@@ -57,14 +57,14 @@ for split = 1:cv_folds
     end
     A_prime = get_nca_matrix(xtr_center',ytr,30,10);
     A_SWCD = A_prime';
-    save(['../metric_init/', dataset, '_init.mat'], 'A_SWCD')
+    save(['../data/metric_init/', dataset, '_init.mat'], 'A_SWCD')
     %load('metric_init/Ascaled.mat');
 %     A = A_prime';
 %     % Load intialize A (trained with WCD)
 % %     load(['metric_init/', dataset, '_seed', num2str(split), '.mat'])
     A = scale_metric(A_SWCD,xtr,ytr,BOW_xtr,indices_tr);
     Ascaled = A;
-    save(['../metric_init/', dataset, '.mat'], 'Ascaled')
+    save(['../data/metric_init/', dataset, '.mat'], 'Ascaled')
 %     
 %     % Define optimization parameters
     w = ones(MAX_DICT_SIZE,1);  % weights over all words in the dictionary

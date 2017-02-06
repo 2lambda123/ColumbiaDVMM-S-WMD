@@ -1,9 +1,9 @@
 function [xtr,xte,ytr,yte, BOW_xtr,BOW_xte, indices_tr, indices_te] = load_data(dataset,seed)
 
 if strcmp(dataset,'ohsumed') || strcmp(dataset,'r83') || strcmp(dataset,'20ng2') || strcmp(dataset,'20ng2_500')
-	load(['dataset/', dataset,'_tr_te.mat']);
+	load(['../data/dataset/', dataset,'_tr_te.mat']);
 else
-	load(['dataset/', dataset,'_tr_te_split.mat']);
+	load(['../data/dataset/', dataset,'_tr_te_split.mat']);
 	xtr = X(TR(seed,:));
 	xte = X(TE(seed,:));
 	BOW_xtr = BOW_X(TR(seed,:));

@@ -1,6 +1,6 @@
 function [xtr, ytr, BOW_xtr, indices_tr, sequence_tr, word_vector] = load_data_python(dataset,subset,seed,number)
     rng(seed);
-	train_data = load(['dataset/', dataset,'_',subset,'_python.mat']);
+	train_data = load(['../data/dataset/', dataset,'_',subset,'_python.mat']);
     train_data = train_data.save_object;
     BOW = train_data{1};
     index_list = train_data{2};

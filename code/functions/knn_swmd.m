@@ -31,4 +31,4 @@ parfor i = 1:ntr
     end
     WMD(i,:) = Wi;
 end
-err = knn_fall_back(WMD,ytr,yte,1:19);
+err = knn_fall_back(WMD,ytr,yte,1:5);

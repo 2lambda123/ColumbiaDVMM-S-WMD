@@ -27,8 +27,8 @@ function [mapping] = get_nca_matrix(X, labels, no_dims, lambda)
     end
     
     % Make sure data is zero mean
-    %mapping.mean = mean(X, 1);
-	%X = bsxfun(@minus, X, mapping.mean);
+    mapping.mean = mean(X, 1);
+	X = bsxfun(@minus, X, mapping.mean);
 
     % Initialize some variables
     max_iter = 200;

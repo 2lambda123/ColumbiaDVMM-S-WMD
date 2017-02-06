@@ -20,8 +20,9 @@ range = 200;  % neighborhood size (N in the paper)
 lr_w = 1e+1; % learning rate for w
 lr_A = 1e+0;  % learing rate for A
 lambda = 10; % parameter in regularized transport problem (lambda in the paper)
-
+projected_dim = 30;
 cv_folds = 1; % number of folds for cross-validation
+
 for split = 1:cv_folds
     save_couter = 0;
     Err_v = [];
@@ -55,7 +56,7 @@ for split = 1:cv_folds
     for i  = 1:nte
         xte_center(:,i) = xte{i} * BOW_xte{i}' / sum(BOW_xte{i});
     end
-    A_prime = get_nca_matrix(xtr_center',ytr,30,10);
+    A_prime = get_nca_matrix(xtr_center',ytr,projected_dim,10);
     A_SWCD = A_prime';
     save(['../data/metric_init/', dataset, '_init.mat'], 'A_SWCD')
     %load('metric_init/Ascaled.mat');

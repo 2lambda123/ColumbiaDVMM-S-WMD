@@ -30,7 +30,7 @@ for split = 1:cv_folds
     Err_t = [];
     w_all = [];
     A_all = [];
-    [xtr,ytr, BOW_xtr, indices_tr, sequence_tr, word_vector] = load_data_python(dataset, 'train', split, 500);
+    [xtr,ytr, BOW_xtr, indices_tr, sequence_tr, word_vector] = load_data_python(dataset, 'train', split, 1000);
     [xte,yte, BOW_xte, indices_te, sequence_te, ~] = load_data_python(dataset, 'test', split, 200);
     
     ntr = length(ytr);
@@ -47,17 +47,22 @@ for split = 1:cv_folds
         xte_center(:,i) = xte{i} * BOW_xte{i}' / sum(BOW_xte{i});
     end
 
-    % Load intialize A (trained with WCD)
-    %load(['metric_init/', 'bbcsport', '_seed', num2str(split), '.mat'])
-    A = get_nca_matrix(xtr_center',ytr,projected_dim);
+    A_prime = get_nca_matrix(xtr_center', ytr, projected_dim, 10);
+    A_SWCD = A_prime';
+    save(['../data/metric_init/', dataset, '_init.mat'], 'A_SWCD')
+
+    A = scale_metric(A_SWCD,xtr,ytr,BOW_xtr,indices_tr);
+    Ascaled = A;
+    save(['../data/metric_init/', dataset, '.mat'], 'Ascaled')
+
     % Define optimization parameters
     w = ones(MAX_DICT_SIZE,1);  % weights over all words in the dictionary
 
     % Test learned metric for WCD
     Dc = distance(xtr_center, xte_center);
-    err_wcd = knn_fall_back(Dc,ytr,yte,1:19);
+    err_wcd = knn_fall_back(Dc,ytr,yte,1:5);
     Dc = distance(A * xtr_center, A * xte_center);
-    err_swcd = knn_fall_back(Dc,ytr,yte,1:19);
+    err_swcd = knn_fall_back(Dc,ytr,yte,1:5);
 
     tStart = tic;
 

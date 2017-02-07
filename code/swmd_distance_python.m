@@ -8,7 +8,7 @@ rng(RAND_SEED,'twister');
 addpath(genpath('functions'));
 addpath('nca');
 
-save_path = './results/';
+save_path = '../results/';
 
 dataset = 'reuters_r8'; 
 MAX_DICT_SIZE = 50000; 
@@ -61,8 +61,10 @@ for split = 1:cv_folds
     % Test learned metric for WCD
     Dc = distance(xtr_center, xte_center);
     err_wcd = knn_fall_back(Dc,ytr,yte,1:5);
+    disp(err_wcd);
     Dc = distance(A * xtr_center, A * xte_center);
     err_swcd = knn_fall_back(Dc,ytr,yte,1:5);
+    disp(err_swcd);
 
     tStart = tic;
 
@@ -90,10 +92,11 @@ for split = 1:cv_folds
         if mod(iter, save_frequency) == 0
             save_couter = save_couter + 1;
             SWMD_tr = distance_matrix_swmd(xtr, ytr, BOW_xtr, indices_tr, w, lambda, A);
-            %SWMD_all = distance_matrix_swmd([xtr, xte], [ytr, yte], [BOW_xtr, BOW_xte], [indices_tr, indices_te], w, lambda, A);
+            err_t = knn_swmd(xtr, ytr, xte, yte, BOW_xtr, BOW_xte, indices_tr, indices_te, w, lambda, A);
+            disp(err_t);
+            SWMD_all = distance_matrix_swmd([xtr, xte], [ytr, yte], [BOW_xtr, BOW_xte], [indices_tr, indices_te], w, lambda, A);
             disp('test over');
-            %save(filename,'SWMD_tr', 'SWMD_all', 'xtr','xte','ytr','yte', 'BOW_xtr','BOW_xte',...
-            %        'indices_te','indices_tr','w','lambda','A');
+            save(filename,'SWMD_tr', 'SWMD_all');
         end
         tIterEnd = toc(tIterStart);
     end

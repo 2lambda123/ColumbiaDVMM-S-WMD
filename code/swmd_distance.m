@@ -103,7 +103,10 @@ for split = 1:cv_folds
         if mod(iter, save_frequency) == 0
             save_couter = save_couter + 1;
             err_v = knn_swmd(xtr, ytr, xv, yv, BOW_xtr, BOW_xv, indices_tr, indices_v, w, lambda, A);
+            err_t = knn_swmd([xtr, xv], [ytr, yv], xte, yte, [BOW_xtr, BOW_xv], BOW_xte, [indices_tr, indices_v], indices_te, w, lambda, A);
+
             disp(err_v);
+            disp(err_t);
             %SWMD_tr = distance_matrix_swmd(xtr, ytr, BOW_xtr, indices_tr, w, lambda, A);
             %SWMD_all = distance_matrix_swmd([xtr, xte], [ytr, yte], [BOW_xtr, BOW_xte], [indices_tr, indices_te], w, lambda, A);
             disp('test over');

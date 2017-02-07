@@ -55,53 +55,6 @@ for split = 1:cv_folds
     A_prime = get_nca_matrix(xtr_center', ytr, projected_dim, 10);
     A_SWCD = A_prime';
     save(['../data/metric_init/', dataset, '_init.mat'], 'A_SWCD')
-<<<<<<< HEAD
-% 
-%     A = scale_metric(A_SWCD,xtr,ytr,BOW_xtr,indices_tr);
-%     Ascaled = A;
-%     save(['../data/metric_init/', dataset, '.mat'], 'Ascaled')
-% 
-%     % Define optimization parameters
-%     w = ones(MAX_DICT_SIZE,1);  % weights over all words in the dictionary
-% 
-%     % Test learned metric for WCD
-%     Dc = distance(A * xtr_center, A * xte_center);
-%     err_swcd = knn_fall_back(Dc,ytr,yte,1:5);
-% 
-%     tStart = tic;
-% 
-%     % Main loop
-%     for iter = 1 : max_iter
-% 
-%         fprintf('Dataset: %s  Split: %d  Iteration: %d \n',dataset,split,iter)
-% 
-%         tIterStart = tic;        
-%         [dw, dA] = grad_swmd(xtr,ytr,BOW_xtr,indices_tr,xtr_center,w,A,lambda,batch,range);
-% 
-%         % Update w and A
-%         w = w - lr_w * dw;
-%         lower_bound = 0.01;
-%         upper_bound = 10;
-%         w(w<lower_bound) = lower_bound;
-%         w(w>upper_bound) = upper_bound;
-%         A = A - lr_A * dA;
-% 
-%         % Compute loss
-%         filename = [save_path, dataset,'_SWMD_matrix.mat'];
-%         disp('begin test');
-%         %disp(iter);
-%         %disp(save_frequency);
-%         if mod(iter, save_frequency) == 0
-%             save_couter = save_couter + 1;
-%             SWMD_tr = distance_matrix_swmd(xtr, ytr, BOW_xtr, indices_tr, w, lambda, A);
-%             %SWMD_all = distance_matrix_swmd([xtr, xte], [ytr, yte], [BOW_xtr, BOW_xte], [indices_tr, indices_te], w, lambda, A);
-%             disp('test over');
-%             %save(filename,'SWMD_tr', 'SWMD_all', 'xtr','xte','ytr','yte', 'BOW_xtr','BOW_xte',...
-%             %        'indices_te','indices_tr','w','lambda','A');
-%         end
-%         tIterEnd = toc(tIterStart);
-%     end
-=======
 
     A = scale_metric(A_SWCD,xtr,ytr,BOW_xtr,indices_tr);
     Ascaled = A;
@@ -111,9 +64,6 @@ for split = 1:cv_folds
     w = ones(MAX_DICT_SIZE,1);  % weights over all words in the dictionary
 
     % Test learned metric for WCD
-    Dc = distance(xtr_center, xte_center);
-    err_wcd = knn_fall_back(Dc,ytr,yte,1:5);
-    disp(err_wcd);
     Dc = distance(A * xtr_center, A * xte_center);
     err_swcd = knn_fall_back(Dc,ytr,yte,1:5);
     disp(err_swcd);
@@ -152,5 +102,4 @@ for split = 1:cv_folds
         end
         tIterEnd = toc(tIterStart);
     end
->>>>>>> 1e3871e1cf7cf4b851716985e6444018d7430af1
 end
